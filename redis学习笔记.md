@@ -20,8 +20,6 @@
 
 ![image-20220423202743717](redis学习笔记.assets/image-20220423202743717.png)
 
-
-
 ## 16 章 sentinel
 
 ![image-20220423203900972](redis学习笔记.assets/image-20220423203900972.png)
@@ -167,6 +165,46 @@
 ![image-20210114180836406](./redis学习笔记.assets/image-20210114180836406.png)
 
 # redis学习记录
+
+## redis set底层数据结构
+
+https://www.jianshu.com/p/28138a5371d0
+
+>redis的集合对象set的底层存储结构特别神奇，我估计一般人想象不到，底层使用了intset和hashtable两种数据结构存储的，intset我们可以理解为数组，hashtable就是普通的哈希表（key为set的值，value为null）。是不是觉得用hashtable存储set是一件很神奇的事情。
+>
+> set的底层存储intset和hashtable是存在编码转换的，使用**intset**存储必须满足下面两个条件，否则使用hashtable，条件如下：
+>
+>- 集合对象保存的所有元素都是整数值
+>- 集合对象保存的元素数量不超过512个
+>
+> hashtable的数据结构应该在前面的hash的章节已经介绍过了，所以这里着重讲一下**intset**这个新的数据结构好了。
+>
+>## intset的数据结构
+>
+> intset 内部其实是一个数组（int8_t coentents[]数组），而且存储数据的时候是有序的，因为在查找数据的时候是通过二分查找来实现的。
+>
+>```java
+>typedef struct intset {
+>    // 编码方式
+>    uint32_t encoding;
+>    // 集合包含的元素数量
+>    uint32_t length;
+>    // 保存元素的数组
+>    int8_t contents[];
+>} intset;
+>```
+>
+>![image-20221222222712165](redis学习笔记.assets/image-20221222222712165.png)
+>
+>## redis set 存储过程
+>
+> 以set的sadd命令为例子，整个添加过程如下：
+>
+>- 检查set是否存在不存在则创建一个set集合。
+>- 根据传入的set集合一个个进行添加，添加的时候需要进行内存压缩。
+>- setTypeAdd执行set添加过程中会判断是否进行编码转换。
+>
+>
 
 
 
