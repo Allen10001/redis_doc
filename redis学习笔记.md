@@ -8,6 +8,8 @@
 
 ![image-20220423185457536](redis学习笔记.assets/image-20220423185457536.png)
 
+
+
 ![image-20220423185801562](redis学习笔记.assets/image-20220423185801562.png)
 
 ![image-20220423190205963](redis学习笔记.assets/image-20220423190205963.png)
@@ -18,9 +20,25 @@
 
 ![image-20220423202340410](redis学习笔记.assets/image-20220423202340410.png)
 
+**完整重同步  部分重同步**
+
 ![image-20220423202743717](redis学习笔记.assets/image-20220423202743717.png)
 
+![image-20230523111714257](redis学习笔记.assets/image-20230523111714257.png)
+
+![image-20230523111728366](redis学习笔记.assets/image-20230523111728366.png)
+
+
+
+对比一下**SYNC命令和PSYNC**命令处理断线重复制的方法，不难看出，虽然SYNC命令 和PSYNC命令都可以让断线的主从服务器重新回到一致状态，但**执行部分重同步所需的资源 比起执行SYNC命令所需的资源要少得多，完成同步的速度也快得多。执行SYNC命令需要生 成、传送和载入整个RDB文件，而部分重同步只需要将从服务器缺少的写命令发送给从服务 器执行就可以了。*
+
+![image-20230522224609205](redis学习笔记.assets/image-20230522224609205.png)
+
+
+
 ## 16 章 sentinel
+
+![image-20230523113307700](redis学习笔记.assets/image-20230523113307700.png)
 
 ![image-20220423203900972](redis学习笔记.assets/image-20220423203900972.png)
 
@@ -30,7 +48,7 @@
 
 ![image-20220423204422014](redis学习笔记.assets/image-20220423204422014.png)
 
-### 16.8 选举领头 sentinel
+### 16.8 选举 领头 sentinel
 
 ![image-20220423221724429](redis学习笔记.assets/image-20220423221724429.png)
 
@@ -38,7 +56,7 @@
 
 ![image-20220423221814848](redis学习笔记.assets/image-20220423221814848.png)
 
-### 16.9 故障转移&选主
+### 16.9 故障转移&选主 (从 从服务器中选出主服务器)
 
 ![image-20220423221904222](redis学习笔记.assets/image-20220423221904222.png)
 
@@ -74,7 +92,7 @@
 
 ![image-20220423213243618](redis学习笔记.assets/image-20220423213243618.png)
 
-节点和单机服务器在数据库方面的一个区别是，**节点只能使用0号数据库**，而单机Redis 服务器则没有这一限制。
+节点和单机服务器在数据库方面的一个区别是，**节点只能使用0号数据库**，而单机 Redis 服务器则没有这一限制。
 
 ![image-20220423214435463](redis学习笔记.assets/image-20220423214435463.png)
 
@@ -84,9 +102,19 @@
 
 ![image-20220423215304322](redis学习笔记.assets/image-20220423215304322.png)
 
+![image-20230523143408723](redis学习笔记.assets/image-20230523143408723.png)
+
+### 17.6.1 设置从节点
+
+![image-20230523143853787](redis学习笔记.assets/image-20230523143853787.png)
+
+
+
 ![image-20220423220637133](redis学习笔记.assets/image-20220423220637133.png)
 
 ![image-20220423220731224](redis学习笔记.assets/image-20220423220731224.png)
+
+**半数以上将其标记位疑似下线，则主节点 X 被标记为已下线。**
 
 ![image-20220423220811880](redis学习笔记.assets/image-20220423220811880.png)
 
@@ -98,7 +126,15 @@
 
 ### 17.6.4 选主
 
+和 领头 sentinel 的选举类似，都是基于 **Raft 算法的 leader election** 方法实现的。
+
 ![image-20220423221141837](redis学习笔记.assets/image-20220423221141837.png)
+
+## 19章 事务 h2
+
+​       Redis通过MULTI、EXEC、WATCH等命令来实现事务(transaction)功能。事务提供了 一种将多个命令请求打包，**然后一次性、按顺序地执行多个命令的机制，并且在事务执行期 间，服务器不会中断事务而改去执行其他客户端的命令请求，它会将事务中的所有命令都执 行完毕，然后才去处理其他客户端的命令请求。**
+
+
 
 # 《redis实战》学习笔记
 
@@ -111,8 +147,6 @@
 ## aof日志存储
 
 ![image-20200810211436876](./redis_image/image-20200810211436876.png)
-
-![image-20200810212420499](/Users/allen/Library/Application Support/typora-user-images/image-20200810212420499.png)
 
 ## redis主从架构的原因
 
@@ -128,11 +162,11 @@
 
 ![image-20200811001608640](./redis_image/image-20200811001608640.png)
 
-## redis事务
+## redis 事务
 
 ![image-20200819170936490](./redis_image/image-20200819170936490.png)
 
-## redis watch加的是乐观锁，传统的关系型数据库加的是悲观锁
+## redis watch 加的是乐观锁，传统的关系型数据库加的是悲观锁
 
 ![image-20200819204747489](./redis_image/image-20200819204747489.png)
 
@@ -164,7 +198,7 @@
 
 ![image-20210114180836406](./redis学习笔记.assets/image-20210114180836406.png)
 
-# redis学习记录
+# redis 学习记录
 
 ## redis set底层数据结构
 
@@ -204,13 +238,302 @@ https://www.jianshu.com/p/28138a5371d0
 >- 根据传入的set集合一个个进行添加，添加的时候需要进行内存压缩。
 >- setTypeAdd执行set添加过程中会判断是否进行编码转换。
 >
->
 
+# redission
 
+## 基于 redis 分布式 容器/服务 工具 redission
+
+https://github.com/redisson/redisson/wiki/1.-%E6%A6%82%E8%BF%B0
+
+>Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(`BitSet`, `Set`, `Multimap`, `SortedSet`, `Map`, `List`, `Queue`, `BlockingQueue`, `Deque`, `BlockingDeque`, `Semaphore`, `Lock`, `AtomicLong`, `CountDownLatch`, `Publish / Subscribe`, `Bloom filter`, `Remote service`, `Spring cache`, `Executor service`, `Live Object service`, `Scheduler service`) Redisson提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。
 
 ## 8. 分布式锁和同步器
 
 https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8
+
+>### 8.1. 可重入锁（Reentrant Lock）
+>
+>基于Redis的Redisson分布式可重入锁[`RLock`](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLock.html) Java对象实现了`java.util.concurrent.locks.Lock`接口。同时还提供了[异步（Async）](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockAsync.html)、[反射式（Reactive）](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockReactive.html)和[RxJava2标准](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockRx.html)的接口。
+>
+>```java
+>RLock lock = redisson.getLock("anyLock");
+>// 最常见的使用方法
+>lock.lock();
+>```
+>
+>大家都知道，如果负责储存这个分布式锁的Redisson节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改[Config.lockWatchdogTimeout](https://github.com/redisson/redisson/wiki/2.-配置方法#lockwatchdogtimeout监控锁的看门狗超时单位毫秒)来另行指定。
+>
+>另外Redisson还通过加锁的方法提供了`leaseTime`的参数来指定加锁的时间。超过这个时间后锁便自动解开了。
+>
+>```
+>// 加锁以后10秒钟自动解锁
+>// 无需调用unlock方法手动解锁
+>lock.lock(10, TimeUnit.SECONDS);
+>
+>// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁
+>boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+>if (res) {
+>   try {
+>     ...
+>   } finally {
+>       lock.unlock();
+>   }
+>}
+>```
+>
+>Redisson同时还为分布式锁提供了异步执行的相关方法：
+>
+>```
+>RLock lock = redisson.getLock("anyLock");
+>lock.lockAsync();
+>lock.lockAsync(10, TimeUnit.SECONDS);
+>Future<Boolean> res = lock.tryLockAsync(100, 10, TimeUnit.SECONDS);
+>```
+>
+>`RLock`对象完全符合Java的Lock规范。也就是说只有拥有锁的进程才能解锁，其他进程解锁则会抛出`IllegalMonitorStateException`错误。但是如果遇到需要其他进程也能解锁的情况，请使用[分布式信号量`Semaphore`](https://github.com/redisson/redisson/wiki/8.-分布式锁和同步器#86-信号量semaphore) 对象.
+>
+>### 8.2. 公平锁（Fair Lock）
+>
+>基于Redis的Redisson分布式可重入公平锁也是实现了`java.util.concurrent.locks.Lock`接口的一种`RLock`对象。同时还提供了[异步（Async）](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockAsync.html)、[反射式（Reactive）](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockReactive.html)和[RxJava2标准](http://static.javadoc.io/org.redisson/redisson/3.10.0/org/redisson/api/RLockRx.html)的接口。它保证了当多个Redisson客户端线程同时请求加锁时，优先分配给先发出请求的线程。所有请求线程会在一个队列中排队，当某个线程出现宕机时，Redisson会等待5秒后继续下一个线程，也就是说如果前面有5个线程都处于等待状态，那么后面的线程会等待至少25秒。
+>
+>```
+>RLock fairLock = redisson.getFairLock("anyLock");
+>// 最常见的使用方法
+>fairLock.lock();
+>```
+>
+>大家都知道，如果负责储存这个分布式锁的Redis节点宕机以后，而且这个锁正好处于锁住的状态时，这个锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改[Config.lockWatchdogTimeout](https://github.com/redisson/redisson/wiki/2.-配置方法#lockwatchdogtimeout监控锁的看门狗超时单位毫秒)来另行指定。
+>
+>另外Redisson还通过加锁的方法提供了`leaseTime`的参数来指定加锁的时间。超过这个时间后锁便自动解开了。
+>
+>```
+>// 10秒钟以后自动解锁
+>// 无需调用unlock方法手动解锁
+>fairLock.lock(10, TimeUnit.SECONDS);
+>
+>// 尝试加锁，最多等待100秒，上锁以后10秒自动解锁
+>boolean res = fairLock.tryLock(100, 10, TimeUnit.SECONDS);
+>...
+>fairLock.unlock();
+>```
+>
+>Redisson同时还为分布式可重入公平锁提供了异步执行的相关方法：
+>
+>```
+>RLock fairLock = redisson.getFairLock("anyLock");
+>fairLock.lockAsync();
+>fairLock.lockAsync(10, TimeUnit.SECONDS);
+>Future<Boolean> res = fairLock.tryLockAsync(100, 10, TimeUnit.SECONDS);
+>```
+>
+>
+>
+>### 8.4. 红锁（RedLock）
+>
+>**基于Redis的Redisson红锁`RedissonRedLock`对象实现了[Redlock](http://redis.cn/topics/distlock.html)介绍的加锁算法。该对象也可以用来将多个`RLock`对象关联为一个红锁，每个`RLock`对象实例可以来自于不同的Redisson实例。**
+>
+>```java
+>RLock lock1 = redissonInstance1.getLock("lock1");
+>RLock lock2 = redissonInstance2.getLock("lock2");
+>RLock lock3 = redissonInstance3.getLock("lock3");
+>
+>RedissonRedLock lock = new RedissonRedLock(lock1, lock2, lock3);
+>// 同时加锁：lock1 lock2 lock3
+>// 红锁在大部分节点上加锁成功就算成功。
+>lock.lock();
+>...
+>lock.unlock();
+>```
+>
+>大家都知道，**如果负责储存某些分布式锁的某些Redis节点宕机以后，而且这些锁正好处于锁住的状态时，这些锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。**默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改[Config.lockWatchdogTimeout](https://github.com/redisson/redisson/wiki/2.-配置方法#lockwatchdogtimeout监控锁的看门狗超时单位毫秒)来另行指定。
+>
+>另外Redisson还通过加锁的方法提供了`leaseTime`的参数来指定加锁的时间。超过这个时间后锁便自动解开了。
+>
+>```java
+>RedissonRedLock lock = new RedissonRedLock(lock1, lock2, lock3);
+>// 给lock1，lock2，lock3加锁，如果没有手动解开的话，10秒钟后将会自动解开
+>lock.lock(10, TimeUnit.SECONDS);
+>
+>// 为加锁等待100秒时间，并在加锁成功10秒钟后自动解开
+>boolean res = lock.tryLock(100, 10, TimeUnit.SECONDS);
+>...
+>lock.unlock();
+>```
+
+## 【Redis进阶】一文搞懂Redisson的看门狗机制底层实现
+
+https://blog.csdn.net/weixin_51146329/article/details/129612350
+
+>Redisson的出现，其中的看门狗机制很好解决续期的问题，它的主要步骤如下：
+>
+>在获取锁的时候，不能指定leaseTime或者只能将leaseTime设置为-1，这样才能开启看门狗机制。
+>在tryLockInnerAsync方法里尝试获取锁，如果获取锁成功调用scheduleExpirationRenewal执行看门狗机制
+>在scheduleExpirationRenewal中比较重要的方法就是renewExpiration，当线程第一次获取到锁（也就是不是重入的情况），那么就会调用renewExpiration方法开启看门狗机制。
+>在renewExpiration会为当前锁添加一个延迟任务task，这个延迟任务会在10s后执行，执行的任务就是将锁的有效期刷新为30s（这是看门狗机制的默认锁释放时间）
+>并且在任务最后还会继续递归调用renewExpiration。
+>也就是总的流程就是，**首先获取到锁（这个锁30s后自动释放），然后对锁设置一个延迟任务（10s后执行），延迟任务给锁的释放时间刷新为30s，并且还为锁再设置一个相同的延迟任务（10s后执行），这样就达到了如果一直不释放锁（程序没有执行完）的话，看门狗机制会每10s将锁的自动释放时间刷新为30s。**
+>
+>**而当程序出现异常，那么看门狗机制就不会继续递归调用renewExpiration，这样锁会在30s后自动释放。**
+>
+>或者，在程序主动释放锁后，流程如下：
+>
+>将锁对应的线程ID移除
+>接着从锁中获取出延迟任务，将延迟任务取消
+>在将这把锁从EXPIRATION_RENEWAL_MAP中移除。
+
+
+
+
+
+## 自己分析的源码
+
+### 核心代码位置
+
+org.redisson.RedissonBaseLock#renewExpiration
+
+```java
+private void renewExpiration() {
+        ExpirationEntry ee = EXPIRATION_RENEWAL_MAP.get(getEntryName());
+        if (ee == null) {
+            return;
+        }
+  
+        // timeout 的实现类就是一个时间轮
+        Timeout task = commandExecutor.getConnectionManager().newTimeout(new TimerTask() {
+            @Override
+            public void run(Timeout timeout) throws Exception {
+                ExpirationEntry ent = EXPIRATION_RENEWAL_MAP.get(getEntryName());
+                if (ent == null) {
+                    return;
+                }
+                Long threadId = ent.getFirstThreadId();
+                if (threadId == null) {
+                    return;
+                }
+                
+                CompletionStage<Boolean> future = renewExpirationAsync(threadId);
+                future.whenComplete((res, e) -> {
+                    if (e != null) {
+                        log.error("Can't update lock " + getRawName() + " expiration", e);
+                        EXPIRATION_RENEWAL_MAP.remove(getEntryName());
+                        return;
+                    }
+                    
+                    if (res) {
+                        // reschedule itself
+                        renewExpiration();
+                    } else {
+                        cancelExpirationRenewal(null);
+                    }
+                });
+            }
+        }, internalLockLeaseTime / 3, TimeUnit.MILLISECONDS);
+        
+        ee.setTimeout(task);
+    }
+```
+
+### Timeout 的实现使用的 netty 的时间轮工具类  
+
+时间轮是看门狗的实现。
+
+io.netty.util.HashedWheelTimer.HashedWheelTimeout
+
+创建 Timeout 对象：
+
+io.netty.util.HashedWheelTimer#newTimeout
+
+时间轮中注册的定时任务由一个工作线程触发执行：
+
+io.netty.util.HashedWheelTimer#workerThread
+
+io.netty.util.HashedWheelTimer.Worker
+
+```java
+private final class Worker implements Runnable {
+        private final Set<Timeout> unprocessedTimeouts = new HashSet<Timeout>();
+
+        private long tick;
+
+        @Override
+        public void run() {
+            // Initialize the startTime.
+            startTime = System.nanoTime();
+            if (startTime == 0) {
+                // We use 0 as an indicator for the uninitialized value here, so make sure it's not 0 when initialized.
+                startTime = 1;
+            }
+
+            // Notify the other threads waiting for the initialization at start().
+            startTimeInitialized.countDown();
+
+            do {
+                final long deadline = waitForNextTick();
+                if (deadline > 0) {
+                    int idx = (int) (tick & mask);
+                    processCancelledTasks();
+                    HashedWheelBucket bucket =
+                            wheel[idx];
+                    transferTimeoutsToBuckets();
+                    bucket.expireTimeouts(deadline);
+                    tick++;
+                }
+            } while (WORKER_STATE_UPDATER.get(HashedWheelTimer.this) == WORKER_STATE_STARTED);
+
+            // Fill the unprocessedTimeouts so we can return them from stop() method.
+            for (HashedWheelBucket bucket: wheel) {
+                bucket.clearTimeouts(unprocessedTimeouts);
+            }
+            for (;;) {
+                HashedWheelTimeout timeout = timeouts.poll();
+                if (timeout == null) {
+                    break;
+                }
+                if (!timeout.isCancelled()) {
+                    unprocessedTimeouts.add(timeout);
+                }
+            }
+            processCancelledTasks();
+        }
+```
+
+### 原理解析
+
+时间轮的整体原理，分为几个部分。
+
+- 创建时间轮
+
+  时间轮本质上是一个环状数组，比如我们初始化时间轮时：ticksPerWheel=8，那么意味着这个环状数组的长度是8，如图3-12所示。
+
+  ```java
+  HashedWheelBucket[] wheel = new HashedWheelBucket[ticksPerWheel];
+  ```
+
+  ![文章配图](redis学习笔记.assets/33f1cef2683c66a7754bc8b15f594f21.png)
+
+- 添加任务，如图3-13所示
+
+  - 当通过newTimeout()方法添加一个延迟任务时，该任务首先会加入到一个阻塞队列中。
+  - 然后会有一个定时任务从该队列获取任务，添加到时间轮的指定位置，计算方法如下。
+
+  ```java
+  //当前任务的开始执行时间除以每个窗口的时间间隔，得到一个calculated值（表示需要经过多少tick，指针没跳动一个窗格，tick会递增），单位为nanos（微毫秒）long calculated = timeout.deadline / tickDuration;//计算当前任务需要在时间轮中经历的圈数，因为当前任务执行时间有可能大于完整一圈的时间，所以需要计算经过几圈之后才能执行该任务。timeout.remainingRounds = (calculated - tick) / wheel.length;//取最大的一个tick，有可能当前任务在队列中已经过了执行时间，这种情况下直接用calculated这个值就没意义了。final long ticks = Math.max(calculated, tick); // Ensure we don't schedule for past.int stopIndex = (int) (ticks & mask); //通过ticks取模mask，得到一个下标HashedWheelBucket bucket = wheel[stopIndex]; //把任务添加到指定数组下标位置
+  ```
+
+  ![文章配图](redis学习笔记.assets/4886525a5d2141a0c2a6bc1ab0d60505.png)
+
+- 任务执行
+
+  **Worker线程按照每次间隔时间转动后，得到该时间窗格中的任务链表，然后从链表的head开始逐个取出任务，有两个判断条件**
+
+  - **当前任务需要转动的圈数为0，表示任务是当前圈开始执行**
+  - **当前任务达到了delay时间，也就是`timeout.deadline <= deadline`. 最终调用timeout.expire()方法执行任务。**
+
+**所以时间轮是单线程的。**
+
+
+
+# 文章
 
 ## [Redis分布式锁如何实现续期](https://www.jb51.net/article/233992.htm)
 
@@ -242,9 +565,9 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >那还是有问题，我们可以在加锁的时候，手动调长redis锁的过期时间，可这个时间多长合适？业务逻辑的执行时间是不可控的，调的过长又会影响操作性能。
 >
->要是redis锁的过期时间能够自动续期就好了。
+>要是**redis锁的过期时间能够自动续期就好了。**
 >
->为了解决这个问题我们使用redis客户端redisson，redisson很好的解决了redis在分布式环境下的一些棘手问题，它的宗旨就是让使用者减少对Redis的关注，将更多精力用在处理业务逻辑上。
+>为了解决这个问题我们使用redis客户端redisson，**redisson很好的解决了redis在分布式环境下的一些棘手问题，它的宗旨就是让使用者减少对Redis的关注，将更多精力用在处理业务逻辑上。**
 >
 >redisson对分布式锁做了很好封装，只需调用API即可。
 >
@@ -272,11 +595,11 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >  比如：TTL为5s,设置获取锁最多用1s，所以如果一秒内无法获取锁，就放弃获取这个锁，从而尝试获取下个锁
 >
->3.client通过获取所有能获取的锁后的时间减去第一步的时间，这个时间差要小于TTL时间并且至少有3个redis实例成功获取锁，才算真正的获取锁成功
+>3.**client通过获取所有能获取的锁后的时间减去第一步的时间，这个时间差要小于TTL时间并且至少有3个redis实例成功获取锁，才算真正的获取锁成功**
 >
->4.如果成功获取锁，则锁的真正有效时间是 TTL减去第三步的时间差 的时间；比如：TTL 是5s,获取所有锁用了2s,则真正锁有效时间为3s(其实应该再减去时钟漂移);
+>**4.如果成功获取锁，则锁的真正有效时间是 TTL减去第三步的时间差 的时间；比如：TTL 是5s,获取所有锁用了2s,则真正锁有效时间为3s(其实应该再减去时钟漂移);**
 >
->5.如果客户端由于某些原因获取锁失败，便会开始解锁所有redis实例；因为可能已经获取了小于3个锁，必须释放，否则影响其他client获取锁
+>**5.如果客户端由于某些原因获取锁失败，便会开始解锁所有redis实例；因为可能已经获取了小于3个锁，必须释放，否则影响其他client获取锁**
 >
 >算法示意图如下：
 >
@@ -288,7 +611,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >**RedLock失败重试**
 >
->当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间；
+>**当client不能获取锁时，应该在随机时间后重试获取锁；并且最好在同一时刻并发的把set命令发送给所有redis实例；而且对于已经获取锁的client在完成任务后要及时释放锁，这是为了节省时间；**
 >
 >**RedLock释放锁**
 >
@@ -298,7 +621,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >1.先假设client获取所有实例，所有实例包含相同的key和过期时间(TTL) ,但每个实例set命令时间不同导致不能同时过期，第一个set命令之前是T1,最后一个set命令后为T2,则此client有效获取锁的最小时间为TTL-(T2-T1)-时钟漂移;
 >
->2.对于以N/2+ 1(也就是一半以 上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况， 从而使锁失效
+>2.**对于以N/2+ 1(也就是一半以 上)的方式判断获取锁成功，是因为如果小于一半判断为成功的话，有可能出现多个client都成功获取锁的情况， 从而使锁失效**
 >
 >3.一个client锁定大多数事例耗费的时间大于或接近锁的过期时间，就认为锁无效，并且解锁这个redis实例(不执行业务) ;只要在TTL时间内成功获取一半以上的锁便是有效锁;否则无效 
 >
@@ -339,15 +662,15 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >**1. redis单线程问题**
 >
->　　单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。
+>　　**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。**
 >
 >**2. 为什么说redis能够快速执行**
 >
->(1) 绝大部分请求是纯粹的内存操作（非常快速）
+>**(1) 绝大部分请求是纯粹的内存操作（非常快速）**
 >
->(2) 采用单线程,避免了不必要的上下文切换和竞争条件
+>**(2) 采用单线程,避免了不必要的上下文切换和竞争条件**
 >
->(3) 非阻塞IO - IO多路复用，Redis采用epoll做为I/O多路复用技术的实现，再加上Redis自身的事件处理模型将epoll中的连接，读写，关闭都转换为了时间，不在I/O上浪费过多的时间。
+>**(3) 非阻塞IO - IO多路复用，Redis采用epoll做为I/O多路复用技术的实现，再加上Redis自身的事件处理模型将epoll中的连接，读写，关闭都转换为了时间，不在I/O上浪费过多的时间。**
 >
 >　　**Redis采用单线程模型，每条命令执行如果占用大量时间，会造成其他线程阻塞，对于Redis这种高性能服务是致命的，所以Redis是面向高速执行的数据库。**
 
@@ -488,24 +811,24 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >有些集群架构是下面这样的，Proxy可以是Twemproxy，是统一的入口。可以在Proxy层做收集上报，但是缺点很明显，并非所有的redis集群架构都有proxy。
 >
 >方法四:用redis自带命令
->(1)monitor命令，该命令可以实时抓取出redis服务器接收到的命令，然后写代码统计出热key是啥。当然，也有现成的分析工具可以给你使用，比如redis-faina。但是该命令在高并发的条件下，有内存增暴增的隐患，还会降低redis的性能。
+>(1)monitor命令，该命令可以实时抓取出redis服务器接收到的命令，然后写代码统计出热key是啥。当然，也有现成的分析工具可以给你使用，比如redis-faina。但是**该命令在高并发的条件下，有内存增暴增的隐患，还会降低redis的性能。**
 >(2)hotkeys参数，redis 4.0.3提供了redis-cli的热点key发现功能，执行redis-cli时加上–hotkeys选项即可。但是该参数在执行的时候，如果key比较多，执行起来比较慢。
 >
 >方法五:自己抓包评估
->Redis客户端使用TCP协议与服务端进行交互，通信协议采用的是RESP。自己写程序监听端口，按照RESP协议规则解析数据，进行分析。缺点就是开发成本高，维护困难，有丢包可能性。
+>Redis客户端使用TCP协议与服务端进行交互，通信协议采用的是RESP。自己写程序监听端口，按照RESP协议规则解析数据，进行分析。**缺点就是开发成本高，维护困难，有丢包可能性。**
 >
 >以上五种方案，各有优缺点。根据自己业务场景进行抉择即可。那么发现热key后，如何解决呢？
 >
 >如何解决
 >目前业内的方案有两种
 >
->(1)利用二级缓存
+>**(1)利用二级缓存**
 >比如利用ehcache，或者一个HashMap都可以。在你发现热key以后，把热key加载到系统的JVM中。
 >针对这种热key请求，会直接从jvm中取，而不会走到redis层。
 >假设此时有十万个针对同一个key的请求过来,如果没有本地缓存，这十万个请求就直接怼到同一台redis上了。
 >现在假设，你的应用层有50台机器，OK，你也有jvm缓存了。这十万个请求平均分散开来，每个机器有2000个请求，会从JVM中取到value值，然后返回数据。避免了十万个请求怼到同一台redis上的情形。
 >
->(2)备份热key
+>**(2)备份热key**
 >这个方案也很简单。不要让key走到同一台redis上不就行了。我们把这个key，在多个redis上都存一份不就好了。接下来，有热key请求进来的时候，我们就在有备份的redis上随机选取一台，进行访问取值，返回数据。
 >假设redis的集群数量为N，步骤如下图所示
 >
@@ -569,7 +892,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 
 >redis单线程问题
 >
->单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。
+>**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。**
 >
 >**1. 为什么说redis能够快速执行**
 >
@@ -581,7 +904,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >**2. redis的内部实现**  (什么是 epoll)
 >
->​	内部实现采用 epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间 这3个条件不是相互独立的，特别是第一条，如果请求都是耗时的，采用单线程吞吐量及性能可想而知了。应该说redis为特殊的场景选择了合适的技术方案。
+>​	**内部实现采用 epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间 这3个条件不是相互独立的，特别是第一条，如果请求都是耗时的，采用单线程吞吐量及性能可想而知了。应该说redis为特殊的场景选择了合适的技术方案。**
 >
 >**3. Redis关于线程安全问题**
 >
@@ -595,7 +918,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >​	2.io多路复用本来就是用来解决对多个I/O监听时,一个I/O阻塞影响其他I/O的问题,这个过程是单线程的，跟多线程没关系.
 >
->​	3.跟多线程相比较,线程切换需要切换到内核进行线程切换,需要消耗时间和资源.而I/O多路复用不需要切换线/进程,效率相对较高,特别是对高并发的应用nginx就是用I/O多路复用,故而性能极佳.但多线程编程逻辑和处理上比I/O多路复用简单.而I/O多路复用处理起来较为复杂.
+>​	3.**跟多线程相比较,线程切换需要切换到内核进行线程切换,需要消耗时间和资源.而I/O多路复用不需要切换线/进程,效率相对较高,特别是对高并发的应用nginx就是用I/O多路复用,故而性能极佳.但多线程编程逻辑和处理上比I/O多路复用简单.而I/O多路复用处理起来较为复杂.**
 >
 >**5. 使用Redis有哪些好处？**
 >
@@ -623,7 +946,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >**7. Redis常见性能问题和解决方案：**（理解不深刻）
 >
->(1) **Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件**；(Master写内存快照，save命令调度rdbSave函数，**会阻塞主线程的工作**，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照;AOF文件过大会影响Master重启的恢复速度)
+>(1) **Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件**；(Master写内存快照，save命令调度rdbSave函数，**会阻塞主线程的工作**，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照;AOF文件过大会影响Master重启的恢复速度) 
 >
 >(2) **如果数据比较重要，某个Slave开启AOF日志文件备份数据，策略设置为每秒同步一次**
 >
@@ -650,13 +973,13 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 > 其结构特点：
 > 1、所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。
-> 2、节点的fail是通过集群中超过半数的节点检测失效时才生效。
+> 2、**节点的fail是通过集群中超过半数的节点检测失效时才生效。**
 > 3、客户端与redis节点直连,不需要中间proxy层.**客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。**
 > 4、**redis-cluster把所有的物理节点映射到[0-16383]slot上（不一定是平均分配）,cluster 负责维护node<->slot<->value**。
 > 5、**Redis集群预分好16384个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384的值，决定将一个key放到哪个桶中**。
 >
 > **a.redis cluster节点分配**
-> 现在我们是三个主节点分别是：A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽 (hash slot)的方式来分配16384个slot 的话，它们三个节点分别承担的slot 区间是：
+> 现在我们是三个主节点分别是：A, B, C 三个节点，它们可以是一台机器上的三个端口，也可以是三台不同的服务器。那么，采用哈希槽 (hash slot)的方式来分配16384个slot 的话，它们三个节点分别承担的 slot 区间是：
 >
 > - 节点A覆盖0－5460;
 >
@@ -683,7 +1006,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 > **b.Redis Cluster主从模式**
 >  redis cluster 为了保证数据的高可用性，加入了主从模式，一个主节点对应一个或多个从节点，**主节点提供数据存取，从节点则是从主节点拉取数据备份**，当这个主节点挂掉后，就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉。
 >
-> 上面那个例子里, 集群有ABC三个主节点, 如果这3个节点都没有加入从节点，如果B挂掉了，我们就无法访问整个集群了。A和C的slot也无法访问。
+> 上面那个例子里, **集群有ABC三个主节点, 如果这3个节点都没有加入从节点，如果B挂掉了，我们就无法访问整个集群了。A和C的slot也无法访问。**
 >
 > 所以我们在集群建立的时候，一定要为每个主节点都添加了从节点, 比如像这样, 集群包含主节点A、B、C, 以及从节点A1、B1、C1, 那么即使B挂掉系统也可以继续正确工作。
 >
@@ -719,7 +1042,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 
 * [多线程jedis的问题分析](https://my.oschina.net/u/2474629/blog/916684)
 
->多个线程共享jedis实例会引起socket异常。
+>**多个线程共享jedis实例会引起socket异常。**
 >
 >jedis在执行每一个命令之前都会先执行connect方法，socket是一个共享变量，在多线程的情况下可能存在：线程1执行到了
 >
@@ -822,7 +1145,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >
 >## jedis多线程操作
 >
->jedis本身不是多线程安全的，这不是jedis的bug，而是jedis的设计与redis本身就是单线程相关。
+>**jedis本身不是多线程安全的，这不是jedis的bug，而是jedis的设计与redis本身就是单线程相关。**
 >
 >那么问题来了要多线程方式访问redis服务器怎么办呢？答案就是使用多个jedis实例，每一个线程一个jedis实例，而不是一个jedis实例多个线程共享。一个jedis关联一个Client相当于一个客户端，Client继承了Connection，Connection维护了Socket连接，对于Socket这种昂贵的连接，一般都会做池化的，jedis提供了JedisPool。
 
@@ -1006,25 +1329,7 @@ Lettuce 和 Jedis  的区别？
 
 我个人是先看了《Redis设计与实现》，然后看《Redis实战》
 
-？？？ 学习下  Jedis 类使用的最佳实践。Jedis 类在多线程下需要如何使用。
 
-
-
-redis 相关问题：
-
-- redis为什么是key，value的，为什么不是支持SQL的？
-- redis是多线程还是单线程？（回答单线程的请回吧，为什么请回，请往下看）
-- redis的持久化开启了RDB和AOF下重启服务是如何加载的？(10个人9个回答错误)
-
->1） AOF持久化开启且存在AOF文件时，优先加载AOF文件，
->2） AOF关闭或者AOF文件不存在时，加载RDB文件，
->3） 加载AOF/RDB文件成功后，Redis启动成功。
->4） AOF/RDB文件存在错误时，Redis启动失败并打印错误信息
-
-- redis如果做集群该如何规划？AKF/CAP如何实现和设计？
-- 10万用户一年365天的登录情况如何用redis存储，并快速检索任意时间窗内的活跃用户？
-- redis的5种Value类型你用过几种，能举例吗？
-- 100万并发4G数据，10万并发400G数据，如何设计Redis存储方式？
 
 ## redis bigkey 治理
 
