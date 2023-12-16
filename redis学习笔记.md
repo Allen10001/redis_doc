@@ -20,7 +20,7 @@
 
 ![image-20220423202340410](redis学习笔记.assets/image-20220423202340410.png)
 
-**完整重同步  部分重同步**
+**完整重同步  部分重同步**  
 
 ![image-20220423202743717](redis学习笔记.assets/image-20220423202743717.png)
 
@@ -30,13 +30,13 @@
 
 
 
-对比一下**SYNC命令和PSYNC**命令处理断线重复制的方法，不难看出，虽然SYNC命令 和PSYNC命令都可以让断线的主从服务器重新回到一致状态，但**执行部分重同步所需的资源 比起执行SYNC命令所需的资源要少得多，完成同步的速度也快得多。执行SYNC命令需要生 成、传送和载入整个RDB文件，而部分重同步只需要将从服务器缺少的写命令发送给从服务 器执行就可以了。*
+对比一下**SYNC命令和PSYNC**命令处理断线重复制的方法，不难看出，虽然SYNC命令 和PSYNC命令都可以让断线的主从服务器重新回到一致状态，但执行部分重同步所需的资源 比起执行SYNC命令所需的资源要少得多，完成同步的速度也快得多。执行SYNC命令需要生 成、传送和载入整个RDB文件，而**部分重同步只需要将从服务器缺少的写命令发送给从服务 器执行就可以了**。
 
 ![image-20230522224609205](redis学习笔记.assets/image-20230522224609205.png)
 
 
 
-## 16 章 sentinel
+## 16 章 sentinel 
 
 ![image-20230523113307700](redis学习笔记.assets/image-20230523113307700.png)
 
@@ -48,7 +48,7 @@
 
 ![image-20220423204422014](redis学习笔记.assets/image-20220423204422014.png)
 
-### 16.8 选举 领头 sentinel
+### 16.8 选举 领头 sentinel 
 
 ![image-20220423221724429](redis学习笔记.assets/image-20220423221724429.png)
 
@@ -56,7 +56,7 @@
 
 ![image-20220423221814848](redis学习笔记.assets/image-20220423221814848.png)
 
-### 16.9 故障转移&选主 (从 从服务器中选出主服务器)
+### 16.9 故障转移&选主  (从 从服务器中选出主服务器)  
 
 ![image-20220423221904222](redis学习笔记.assets/image-20220423221904222.png)
 
@@ -132,33 +132,33 @@
 
 ## 19章 事务 h2
 
-​       Redis通过MULTI、EXEC、WATCH等命令来实现事务(transaction)功能。事务提供了 一种将多个命令请求打包，**然后一次性、按顺序地执行多个命令的机制，并且在事务执行期 间，服务器不会中断事务而改去执行其他客户端的命令请求，它会将事务中的所有命令都执 行完毕，然后才去处理其他客户端的命令请求。**
+​       Redis通过 MULTI、EXEC、WATCH 等命令来实现事务(transaction)功能。事务提供了 一种将多个命令请求打包，**然后一次性、按顺序地执行多个命令的机制，并且在事务执行期 间，服务器不会中断事务而改去执行其他客户端的命令请求，它会将事务中的所有命令都执 行完毕，然后才去处理其他客户端的命令请求。**
 
 
 
 # 《redis实战》学习笔记
 
-## rdb快照存储 
+## rdb 快照存储 
 
 ![image-20200810210309299](./redis_image/image-20200810210309299-7066286.png)
 
 ![image-20200810210127736](./redis_image/image-20200810210127736-7066296.png)
 
-## aof日志存储
+## aof 日志存储
 
 ![image-20200810211436876](./redis_image/image-20200810211436876.png)
 
-## redis主从架构的原因
+## redis 主从架构的原因
 
 ![image-20200810233517437](./redis_image/image-20200810233517437.png)
 
-## redis主从复制过程
+## redis 主从复制过程
 
 ![image-20200810234559547](./redis_image/image-20200810234559547.png)
 
 ![image-20200810235209758](./redis_image/image-20200810235209758.png)
 
-## 一般redis主从同步需要做那些设置
+## 一般 redis 主从同步需要做那些设置 
 
 ![image-20200811001608640](./redis_image/image-20200811001608640.png)
 
@@ -204,7 +204,7 @@
 
 https://www.jianshu.com/p/28138a5371d0
 
->redis的集合对象set的底层存储结构特别神奇，我估计一般人想象不到，底层使用了intset和hashtable两种数据结构存储的，intset我们可以理解为数组，hashtable就是普通的哈希表（key为set的值，value为null）。是不是觉得用hashtable存储set是一件很神奇的事情。
+>redis 的集合对象set的底层存储结构特别神奇，我估计一般人想象不到，底层使用了intset和hashtable两种数据结构存储的，intset我们可以理解为数组，hashtable 就是普通的哈希表（key为set的值，value为null）。是不是觉得用hashtable存储set是一件很神奇的事情。
 >
 > set的底层存储intset和hashtable是存在编码转换的，使用**intset**存储必须满足下面两个条件，否则使用hashtable，条件如下：
 >
@@ -245,11 +245,11 @@ https://www.jianshu.com/p/28138a5371d0
 
 https://github.com/redisson/redisson/wiki/1.-%E6%A6%82%E8%BF%B0
 
->Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(`BitSet`, `Set`, `Multimap`, `SortedSet`, `Map`, `List`, `Queue`, `BlockingQueue`, `Deque`, `BlockingDeque`, `Semaphore`, `Lock`, `AtomicLong`, `CountDownLatch`, `Publish / Subscribe`, `Bloom filter`, `Remote service`, `Spring cache`, `Executor service`, `Live Object service`, `Scheduler service`) Redisson提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。
+>Redisson是一个在Redis的基础上实现的Java驻内存数据网格（In-Memory Data Grid）。它不仅提供了一系列的分布式的Java常用对象，还提供了许多分布式服务。其中包括(`BitSet`, `Set`, `Multimap`, `SortedSet`, `Map`, `List`, `Queue`, `BlockingQueue`, `Deque`, `BlockingDeque`, `Semaphore`, `Lock`, `AtomicLong`, `CountDownLatch`, `Publish / Subscribe`, `Bloom filter`, `Remote service`, `Spring cache`, `Executor service`, `Live Object service`, `Scheduler service`) Redisson 提供了使用Redis的最简单和最便捷的方法。Redisson的宗旨是促进使用者对Redis的关注分离（Separation of Concern），从而让使用者能够将精力更集中地放在处理业务逻辑上。
 
 ## 8. 分布式锁和同步器
 
-https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8
+https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81%E5%92%8C%E5%90%8C%E6%AD%A5%E5%99%A8 
 
 >### 8.1. 可重入锁（Reentrant Lock）
 >
@@ -281,7 +281,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >}
 >```
 >
->Redisson同时还为分布式锁提供了异步执行的相关方法：
+>Redisson 同时还为分布式锁提供了异步执行的相关方法：
 >
 >```
 >RLock lock = redisson.getLock("anyLock");
@@ -345,7 +345,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 >lock.unlock();
 >```
 >
->大家都知道，**如果负责储存某些分布式锁的某些Redis节点宕机以后，而且这些锁正好处于锁住的状态时，这些锁会出现锁死的状态。为了避免这种情况的发生，Redisson内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。**默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改[Config.lockWatchdogTimeout](https://github.com/redisson/redisson/wiki/2.-配置方法#lockwatchdogtimeout监控锁的看门狗超时单位毫秒)来另行指定。
+>大家都知道，**如果负责储存某些分布式锁的某些Redis节点宕机以后，而且这些锁正好处于锁住的状态时，这些锁会出现锁死的状态。为了避免这种情况的发生，Redisson 内部提供了一个监控锁的看门狗，它的作用是在Redisson实例被关闭前，不断的延长锁的有效期。**默认情况下，看门狗的检查锁的超时时间是30秒钟，也可以通过修改[Config.lockWatchdogTimeout](https://github.com/redisson/redisson/wiki/2.-配置方法#lockwatchdogtimeout监控锁的看门狗超时单位毫秒)来另行指定。
 >
 >另外Redisson还通过加锁的方法提供了`leaseTime`的参数来指定加锁的时间。超过这个时间后锁便自动解开了。
 >
@@ -364,7 +364,7 @@ https://github.com/redisson/redisson/wiki/8.-%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%8
 
 https://blog.csdn.net/weixin_51146329/article/details/129612350
 
->Redisson的出现，其中的看门狗机制很好解决续期的问题，它的主要步骤如下：
+>Redisson 的出现，其中的看门狗机制很好解决续期的问题，它的主要步骤如下：
 >
 >在获取锁的时候，不能指定leaseTime或者只能将leaseTime设置为-1，这样才能开启看门狗机制。
 >在tryLockInnerAsync方法里尝试获取锁，如果获取锁成功调用scheduleExpirationRenewal执行看门狗机制
@@ -377,11 +377,9 @@ https://blog.csdn.net/weixin_51146329/article/details/129612350
 >
 >或者，在程序主动释放锁后，流程如下：
 >
->将锁对应的线程ID移除
->接着从锁中获取出延迟任务，将延迟任务取消
+>将锁对应的线程ID移除。
+>接着从锁中获取出延迟任务，将延迟任务取消。
 >在将这把锁从EXPIRATION_RENEWAL_MAP中移除。
-
-
 
 
 
@@ -650,19 +648,19 @@ private final class Worker implements Runnable {
 >
 >如果有序集合 key 不存在，则创建一个空的有序集并执行 ZADD 操作。
 >
->返回值:
+>返回值:  
 >
 >被成功添加的新成员的数量，不包括那些被更新的、已经存在的成员。
 
 ## [redis 单线程的理解](https://www.cnblogs.com/myseries/p/11733861.html)
 
->**单线程模型**
+>**单线程模型** 
 >
->　　Redis 客户端对服务端的每次调用都经历了发送命令，执行命令，返回结果三个过程。其中执行命令阶段，**由于Redis是单线程来处理命令的，所有每一条到达服务端的命令不会立刻执行，所有的命令都会进入一个队列中，然后逐个被执行。**并且多个客户端发送的命令的执行顺序是不确定的。**但是可以确定的是不会有两条命令被同时执行，不会产生并发问题**，这就是Redis的单线程基本模型。
+>　　Redis 客户端对服务端的每次调用都经历了发送命令，执行命令，返回结果三个过程。其中执行命令阶段，**由于Redis是单线程来处理命令的，所有每一条到达服务端的命令不会立刻执行，所有的命令都会进入一个队列中，然后逐个被执行。**并且多个客户端发送的命令的执行顺序是不确定的。**但是可以确定的是不会有两条命令被同时执行，不会产生并发问题**，这就是Redis的单线程基本模型。 
 >
 >**1. redis单线程问题**
 >
->　　**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。**
+>　　**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。** 
 >
 >**2. 为什么说redis能够快速执行**
 >
@@ -670,18 +668,18 @@ private final class Worker implements Runnable {
 >
 >**(2) 采用单线程,避免了不必要的上下文切换和竞争条件**
 >
->**(3) 非阻塞IO - IO多路复用，Redis采用epoll做为I/O多路复用技术的实现，再加上Redis自身的事件处理模型将epoll中的连接，读写，关闭都转换为了时间，不在I/O上浪费过多的时间。**
+>**(3) 非阻塞IO - IO多路复用，Redis采用epoll做为I/O多路复用技术的实现，再加上Redis自身的事件处理模型将epoll中的连接，读写，关闭都转换为了时间，不在I/O上浪费过多的时间。** 
 >
->　　**Redis采用单线程模型，每条命令执行如果占用大量时间，会造成其他线程阻塞，对于Redis这种高性能服务是致命的，所以Redis是面向高速执行的数据库。**
+>　　**Redis采用单线程模型，每条命令执行如果占用大量时间，会造成其他线程阻塞，对于Redis这种高性能服务是致命的，所以Redis是面向高速执行的数据库。** 
 
 ## [Redis分布式锁/Redis的setnx命令如何设置key的失效时间（同时操作setnx和expire）](https://www.cnblogs.com/smallleiit/p/13530602.html)
 
 >`Redis`的`setnx`命令是当`key`不存在时设置`key`，但`setnx`不能同时完成`expire`设置失效时长，不能保证`setnx`和`expire`的原子性。我们可以使用`set`命令完成`setnx`和`expire`的操作，并且这种操作是原子操作。
->下面是`set`命令的可选项：
+>下面是`set`命令的可选项： 
 >
 >![img](https://img2020.cnblogs.com/blog/1344726/202008/1344726-20200819172613346-77446137.png)
 >
-> 从上面可以看出，多个命令放在同一个`redis`连接中并且`redis`是单线程的，因此上面的操作可以看成`setnx`和`expire`的结合体，是原子性的。
+> 从上面可以看出，多个命令放在同一个`redis`连接中并且`redis`是单线程的，因此上面的操作可以看成`setnx`和`expire`的结合体，是原子性的。 
 >
 >
 
@@ -854,7 +852,7 @@ private final class Worker implements Runnable {
 
 >## 02 方案汇总
 >
->### （1）基于 redis 自身的RDB/AOF 备份机制
+>### （1）基于 redis 自身的 RDB/AOF 备份机制
 >
 >![image-20210309220220879](./redis学习笔记.assets/image-20210309220220879.png)
 >
@@ -888,11 +886,11 @@ private final class Worker implements Runnable {
 >
 >
 
-## redis单线程原理
+## redis 单线程原理
 
->redis单线程问题
+>redis 单线程问题
 >
->**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。**
+>**单线程指的是网络请求模块使用了一个线程（所以不需考虑并发安全性），即一个线程处理所有网络请求，其他模块仍用了多个线程。** 
 >
 >**1. 为什么说redis能够快速执行**
 >
@@ -902,9 +900,9 @@ private final class Worker implements Runnable {
 >
 >(3) 非阻塞IO - IO多路复用
 >
->**2. redis的内部实现**  (什么是 epoll)
+>**2. redis的内部实现**  (什么是 epoll)   
 >
->​	**内部实现采用 epoll，采用了epoll+自己实现的简单的事件框架。epoll中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间 这3个条件不是相互独立的，特别是第一条，如果请求都是耗时的，采用单线程吞吐量及性能可想而知了。应该说redis为特殊的场景选择了合适的技术方案。**
+>​	**内部实现采用 epoll，采用了epoll+自己实现的简单的事件框架。epoll 中的读、写、关闭、连接都转化成了事件，然后利用epoll的多路复用特性，绝不在io上浪费一点时间 这3个条件不是相互独立的，特别是第一条，如果请求都是耗时的，采用单线程吞吐量及性能可想而知了。应该说redis为特殊的场景选择了合适的技术方案。** 
 >
 >**3. Redis关于线程安全问题**
 >
@@ -912,41 +910,41 @@ private final class Worker implements Runnable {
 >
 >**4. IO多路复用**
 >
->那这样子，在读取socket1的数据时，如果其它socket有数据来，那么也要等到socket1读取完了才能继续读取其它socket的数据吧。那不是也阻塞住了吗？而且读取到的数据也要开启线程处理吧，那这和多线程IO有什么区别呢？  （不懂问的什么）
+>那这样子，在读取socket1的数据时，如果其它socket有数据来，那么也要等到socket1读取完了才能继续读取其它socket的数据吧。那不是也阻塞住了吗？而且读取到的数据也要开启线程处理吧，那这和多线程IO有什么区别呢？  
 >
->A:1.CPU本来就是线性的不论什么都需要顺序处理,并行只能是多核CPU.
+>A:1. CPU 本来就是线性的不论什么都需要顺序处理, 并行只能是多核 CPU.
 >
->​	2.io多路复用本来就是用来解决对多个I/O监听时,一个I/O阻塞影响其他I/O的问题,这个过程是单线程的，跟多线程没关系.
+>​	2. io 多路复用本来就是用来解决对多个 **I/O监听时,一个I/O阻塞影响其他I/O的问题,这个过程是单线程的，跟多线程没关系.**
 >
->​	3.**跟多线程相比较,线程切换需要切换到内核进行线程切换,需要消耗时间和资源.而I/O多路复用不需要切换线/进程,效率相对较高,特别是对高并发的应用nginx就是用I/O多路复用,故而性能极佳.但多线程编程逻辑和处理上比I/O多路复用简单.而I/O多路复用处理起来较为复杂.**
+>​	3. **跟多线程相比较,线程切换需要切换到内核进行线程切换, 需要消耗时间和资源. 而I/O多路复用不需要切换线/进程, 效率相对较高, 特别是对高并发的应用nginx就是用I/O多路复用,故而性能极佳.但多线程编程逻辑和处理上比I/O多路复用简单. 而I/O多路复用处理起来较为复杂.** 
 >
 >**5. 使用Redis有哪些好处？**
 >
 >(1) 速度快，因为数据存在内存中，类似于HashMap，HashMap的优势就是查找和操作的时间复杂度都是O(1)。
 >
->(2) 支持丰富数据类型，支持string，list，set，sorted set，hash。
+>(2) 支持丰富数据类型，支持 **string，list，set，sorted set，hash**。
 >
 >(3) 支持事务，操作都是原子性，所谓的原子性就是对数据的更改要么全部执行，要么全部不执行。
 >
->(4) 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除
+>(4) 丰富的特性：可用于缓存，消息，按key设置过期时间，过期后将会自动删除. 
 >
 >**6. Redis相比memcached有哪些优势？**
 >
->(1) memcached所有的值均是简单的字符串，redis作为其替代者，支持更为丰富的数据类型
+>(1) memcached 所有的值均是简单的字符串，redis 作为其替代者，支持更为丰富的数据类型。 
 >
->(2) redis的速度比memcached快很多
+>(2) redis 的速度比memcached快很多。 
 >
->(3) redis可以持久化其数据
+>(3) redis可以持久化其数据。 
 >
 >(4)Redis支持数据的备份，即master-slave模式的数据备份。
 >
->(5) 使用底层模型不同，它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。Redis直接自己构建了VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。
+>(5) 使用底层模型不同，它们之间底层实现方式 以及与客户端之间通信的应用协议不一样。Redis直接自己构建了 VM 机制 ，因为一般的系统调用系统函数的话，会浪费一定的时间去移动和请求。
 >
 >(6）value大小：redis最大可以达到1GB，而memcache只有1MB
 >
->**7. Redis常见性能问题和解决方案：**（理解不深刻）
+>**7. Redis 常见性能问题和解决方案：** 
 >
->(1) **Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件**；(Master写内存快照，save命令调度rdbSave函数，**会阻塞主线程的工作**，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照;AOF文件过大会影响Master重启的恢复速度) 
+>(1) **Master最好不要做任何持久化工作，如RDB内存快照和AOF日志文件**；(Master写内存快照，save命令调度rdbSave函数，**会阻塞主线程的工作**，当快照比较大时对性能影响是非常大的，会间断性暂停服务，所以Master最好不要写内存快照;AOF文件过大会影响Master重启的恢复速度)  
 >
 >(2) **如果数据比较重要，某个Slave开启AOF日志文件备份数据，策略设置为每秒同步一次**
 >
@@ -972,10 +970,10 @@ private final class Worker implements Runnable {
 > ![image-20220404215346851](redis学习笔记.assets/image-20220404215346851.png)
 >
 > 其结构特点：
-> 1、所有的redis节点彼此互联(PING-PONG机制),内部使用二进制协议优化传输速度和带宽。
+> 1、所有的 redis 节点彼此互联 (PING-PONG机制),  内部使用二进制协议优化传输速度和带宽。
 > 2、**节点的fail是通过集群中超过半数的节点检测失效时才生效。**
 > 3、客户端与redis节点直连,不需要中间proxy层.**客户端不需要连接集群所有节点,连接集群中任何一个可用节点即可。**
-> 4、**redis-cluster把所有的物理节点映射到[0-16383]slot上（不一定是平均分配）,cluster 负责维护node<->slot<->value**。
+> 4、**redis-cluster把所有的物理节点映射到[0-16383]slot上（不一定是平均分配）, cluster 负责维护node<->slot<->value**。
 > 5、**Redis集群预分好16384个桶，当需要在 Redis 集群中放置一个 key-value 时，根据 CRC16(key) mod 16384的值，决定将一个key放到哪个桶中**。
 >
 > **a.redis cluster节点分配**
@@ -993,9 +991,9 @@ private final class Worker implements Runnable {
 >   新增一个主节点:
 >    **新增一个节点D，redis cluster的这种做法是从各个节点的前面各拿取一部分slot到D上，我会在接下来的实践中实验。**大致就会变成这样：
 >
-> - 节点A覆盖1365-5460
+> - 节点A覆盖 1365-5460
 >
-> - 节点B覆盖6827-10922
+> - 节点B覆盖 6827-10922
 >
 > - 节点C覆盖12288-16383
 >
@@ -1003,12 +1001,12 @@ private final class Worker implements Runnable {
 >
 > 同样删除一个节点也是类似，移动完成后就可以删除这个节点了。
 >
-> **b.Redis Cluster主从模式**
+> **b.Redis Cluster模式**
 >  redis cluster 为了保证数据的高可用性，加入了主从模式，一个主节点对应一个或多个从节点，**主节点提供数据存取，从节点则是从主节点拉取数据备份**，当这个主节点挂掉后，就会有这个从节点选取一个来充当主节点，从而保证集群不会挂掉。
 >
 > 上面那个例子里, **集群有ABC三个主节点, 如果这3个节点都没有加入从节点，如果B挂掉了，我们就无法访问整个集群了。A和C的slot也无法访问。**
 >
-> 所以我们在集群建立的时候，一定要为每个主节点都添加了从节点, 比如像这样, 集群包含主节点A、B、C, 以及从节点A1、B1、C1, 那么即使B挂掉系统也可以继续正确工作。
+> 所以我们在集群建立的时候，一定要为每个主节点都添加了从节点, 比如像这样, 集群包含主节点A、B、C, 以及从节点A1、B1、C1, 那么即使B挂掉系统也可以继续正确工作。 
 >
 > B1节点替代了B节点，所以Redis集群将会选择B1节点作为新的主节点，集群将会继续正确地提供服务。 当B重新开启后，它就会变成B1的从节点。
 >
@@ -1044,7 +1042,7 @@ private final class Worker implements Runnable {
 
 >**多个线程共享jedis实例会引起socket异常。**
 >
->jedis在执行每一个命令之前都会先执行connect方法，socket是一个共享变量，在多线程的情况下可能存在：线程1执行到了
+>jedis 在执行每一个命令之前都会先执行connect方法，socket是一个共享变量，在多线程的情况下可能存在：线程1执行到了
 >
 >```java
 >outputStream = new RedisOutputStream(socket.getOutputStream());
@@ -1234,27 +1232,27 @@ private final class Worker implements Runnable {
 
 ## [maxmemory-policy volatile-lru](https://blog.csdn.net/qq_35732831/article/details/85242571)  redis 内存淘汰机制
 
->对应的策略
+>对应的策略 
 >
 >noeviction：当内存使用达到阈值的时候，所有引起申请内存的命令会报错。
 >
 >allkeys-lru：在主键空间中，**优先移除最近未使用的key。**(推荐)
 >
->allkeys-random：在主键空间中，随机移除某个key。
+>allkeys-random：在主键空间中，**随机移除某个key**。
 >
->volatile-lru：在设置了过期时间的键空间中，优先移除最近未使用的key。
+>volatile-lru：在**设置了过期时间的键空间**中，优先移除最近未使用的key。
 >
->volatile-random：在设置了过期时间的键空间中，随机移除某个key。
+>volatile-random：在**设置了过期时间的键空间**中，随机移除某个key。
 >
->volatile-ttl：在设置了过期时间的键空间中，具有更早过期时间的key优先移除。
+>volatile-ttl：在设置了过期时间的键空间中，**具有更早过期时间的key优先移除**。
 
 * [redis的内存淘汰机制是什么？](https://www.zhihu.com/question/396791243/answer/1254268175)
 
->淘汰机制的实现：
+>淘汰机制的实现： 
 >
 >既然是淘汰，那就需要把这些数据给删除，然后保存新的。Redis 删除失效主键的方法主要有两种：
 >
->（1）消极方法（passive way），在主键被访问时如果发现它已经失效，那么就删除它。redis在实现GET、MGET、HGET、LRANGE等所有涉及到读取数据的命令时都会调用 expireIfNeeded，它存在的意义就是在读取数据之前先检查一下它有没有失效，如果失效了就删除它。
+>**（1）消极方法（passive way），在主键被访问时如果发现它已经失效，那么就删除它。redis在实现GET、MGET、HGET、LRANGE等所有涉及到读取数据的命令时都会调用 expireIfNeeded，它存在的意义就是在读取数据之前先检查一下它有没有失效，如果失效了就删除它。**
 >
 >```c++
 >1int expireIfNeeded(redisDb *db, robj *key) {
@@ -1281,7 +1279,7 @@ private final class Worker implements Runnable {
 >22}
 >```
 >
->expireIfNeeded函数中调用的另外一个函数propagateExpire，这个函数用来在正式删除失效主键，并且广播告诉其他地方，目的地有俩：AOF文件，将删除失效主键的这一操作以DEL Key的标准命令格式记录下来；另一个就是发送到当前Redis服务器的所有Slave，同样将删除失效主键的这一操作以DEL Key的标准命令格式告知这些Slave删除各自的失效主键。
+>expireIfNeeded函数中调用的另外一个函数propagateExpire，这个函数用来在正式删除失效主键，并且广播告诉其他地方，目的地有俩：AOF文件，将删除失效主键的这一操作以DEL Key的标准命令格式记录下来；另一个就是发送到当前Redis服务器的所有Slave，同样将删除失效主键的这一操作以DEL Key的标准命令格式告知这些Slave删除各自的失效主键。 
 >
 >（2）积极方法（active way），**周期性地探测，发现失效就删除。消极方法的缺点是，如果key 迟迟不被访问，就会占用很多内存空间，所以才有积极方式。**
 >
@@ -1371,13 +1369,15 @@ https://mp.weixin.qq.com/s/plFYS5eBTP2d7b99z_yGkg
 >
 >如果用了本地缓存，相信很多读者第一想法就是一致性怎么维护，这个无论是在实际应用中还是面试中都是一个高频的问题。
 >
-> 还是得从业务场景触发，用缓存的场景肯定就是没有强一致性的要求，能够容忍短暂的不一致。所以在Redis缓存失效或者数据有变更的时候，本地缓存也需要同步清除。
+>**重点** ： **还是得从业务场景触发，用缓存的场景肯定就是没有强一致性的要求，能够容忍短暂的不一致。所以在Redis缓存失效或者数据有变更的时候，本地缓存也需要同步清除。** 
 >
-> **一般都会采用消息广播的方式进行通知本地缓存失效，因为服务是集群部署的，每个节点上都有一份缓存数据，所以需要广播通知。**
+>**一般都会采用消息广播的方式进行通知本地缓存失效，因为服务是集群部署的，每个节点上都有一份缓存数据，所以需要广播通知。** 
 >
 >![image-20211222153716612](redis学习笔记.assets/image-20211222153716612.png)
 >
->## BigKey的治理
+>## BigKey 的治理
 >
 >最后要进行BigKey的治理，梳理出来目前已有的BigKey，根据业务场景进行优化。同时在后续使用缓存的场景对缓存内容严格把关，防止出现类似的问题。
+>
+>
 
